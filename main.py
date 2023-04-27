@@ -145,17 +145,21 @@ calcular.place(x=20, y=130)
 calcular['background']='#577D86'
 
 
+
 # Tratando de generar la grafica
 valores = [6, 5, 4, 3, 2, 1, 0]
 
 # Crear una figura y una gráfica con los valores
 fig, ax = plt.subplots()
-ax.plot(valores)
+ax.plot(valores, color='red')
+
+# Cambiar el color de fondo de la figura
+fig.set_facecolor('#569DAA')
 
 # Crear un widget Frame para contener la gráfica
 grafica = tk.Frame(root)
 grafica.pack()
-grafica.place(x=400, y=50, width=300, height=200)
+grafica.place(x=400, y=50, width=320, height=200)
 
 # Crear el widget de Tkinter que contendrá la gráfica
 canvas = FigureCanvasTkAgg(fig, master=grafica)
