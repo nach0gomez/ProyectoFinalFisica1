@@ -60,16 +60,16 @@ combo['background']='#577D86'
 
 # Crea el cuadro de imagen que cambieas egún la opción seleccionada
 image1 = Image.open("i5.png")  # reemplazar con la ubicación de su propia imagen
-resized_image1= image1.resize((90, 70), Image.LANCZOS) # * 275,183 medidas fijas
+resized_image1= image1.resize((60, 50), Image.LANCZOS) # * 275,183 medidas fijas
 photo1 = ImageTk.PhotoImage(resized_image1)
 image2 = Image.open("ryzen 5.png")  # reemplazar con la ubicación de su propia imagen
-resized_image2= image2.resize((110, 80), Image.LANCZOS)
+resized_image2= image2.resize((60, 50), Image.LANCZOS)
 photo2 = ImageTk.PhotoImage(resized_image2)
 image3 = Image.open("i7.png")  # reemplazar con la ubicación de su propia imagen\
-resized_image3= image3.resize((110, 80), Image.LANCZOS) # * 275,183 medidas fijas   
+resized_image3= image3.resize((60, 50), Image.LANCZOS) # * 275,183 medidas fijas   
 photo3 = ImageTk.PhotoImage(resized_image3)
 image4 = Image.open("empty.png")  # reemplazar con la ubicación de su propia imagen
-resized_image4= image4.resize((110, 80), Image.LANCZOS) # * 275,183 medidas fijas
+resized_image4= image4.resize((60, 50), Image.LANCZOS) # * 275,183 medidas fijas
 photo4 = ImageTk.PhotoImage(resized_image4)
 
 
@@ -82,7 +82,7 @@ label3['background']='#569DAA'
 # Ponemos la imagen empty como la predeteminada
 label_visual = tk.Label(root, image=photo4)
 label_visual.pack()
-label_visual.place(x=560, y=20, width= 90, height=70)
+label_visual.place(x=560, y=10, width=60, height=50)
 
 # * funcion para cambiar de imagen
 def change_image(event):
@@ -130,12 +130,12 @@ label5.place(x=20, y=100)
 label5['background']='#569DAA'
 
 
-# Crear una función para guardar el dato ingresado en el entry
+# función para guardar el dato ingresado en el entry
 def calcular():
     data = entry1.get()
     output.configure(state="normal")
     output.delete("1.0", "end")
-    output.insert("end", f": {data}")
+    output.insert("end", f": {data} °C, {data} °F, {data} K")
     output.configure(state="disabled")
 
 # Crear un botón para guardar el dato ingresado
@@ -159,7 +159,7 @@ fig.set_facecolor('#569DAA')
 # Crear un widget Frame para contener la gráfica
 grafica = tk.Frame(root)
 grafica.pack()
-grafica.place(x=400, y=50, width=320, height=200)
+grafica.place(x=400, y=70, width=320, height=200)
 
 # Crear el widget de Tkinter que contendrá la gráfica
 canvas = FigureCanvasTkAgg(fig, master=grafica)
