@@ -1,32 +1,15 @@
-
 import tkinter as tk
 from tkinter import ttk
 from PIL import ImageTk, Image
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-
 # Crear la ventana principal
 root = tk.Tk()
-
-root.resizable(0,0)
+root.geometry("800x600")
 root.title("Visualizador de Cambio de Estados del Agua")
-root['background']='#569DAA'
-width = 760 # Width 
-height = 400 # Height
+root.configure(background="#569DAA")
 
-screen_width = root.winfo_screenwidth()  
-screen_height = root.winfo_screenheight()
-
-x = (screen_width/2) - (width/2)
-y = (screen_height/2) - (height/2)
-
-root.geometry('%dx%d+%d+%d' % (width, height, x, y))
-
-
-
-#! Metodos de dibujo de componentes 
- 
 # Crear una variable Tkinter para almacenar el valor del slider
 valor_slider = tk.IntVar()
 
@@ -38,7 +21,7 @@ def actualizar_valor(*args):
     valor = valor_slider.get()
     valor_texto.set(f"Estado del Agua a: {valor} °C")
     actualizar_imagen()
-
+    actualizar_punto()
 
 # Función para actualizar la imagen en función del valor del slider
 def actualizar_imagen():
@@ -50,84 +33,69 @@ def actualizar_imagen():
     elif valor > 0 and valor < 100:
         imagen = Image.open("liquido.png")
     else:
-        imagen = imagen = Image.open("gaseoso.jpg")
+        imagen = Image.open("gaseoso.jpg")
     
     # Editando el tamaño de la imagen para ser editada en posicion
-    imagen = imagen.resize((250, 200))
+    imagen = imagen.resize((200, 200))
     imagen_tk = ImageTk.PhotoImage(imagen)
     etiqueta_imagen.configure(image=imagen_tk)
     etiqueta_imagen.image = imagen_tk
-    #print(valor)
-    
-    #punto con el slider
-    x = (valor + 50) / 200  # Normaliza el valor del slider en el rango de 0 a 1 para el eje x
-    y = (100 - valor) / 100  # Normaliza el valor del slider en el rango de 0 a 1 para el eje y
+
+# Función para actualizar la posición del punto en función del valor del slider
+def actualizar_punto():
+    valor = valor_slider.get()
+    x = 0.3
+    y = (valor - 20) / 130
     punto.set_data(x, y)
     canvas.draw_idle()
-        
 
-#Label principal
+# Label principal
 titulo = tk.Label(root, text="Visualizador Cambio de Estados del Agua", font=("Arial", 16), fg="black", bg="#569DAA")
 titulo.pack(pady=10)
 
-
 # Crear un slider
-slider = tk.Scale(root, from_=-50, to=150, variable=valor_slider, orient=tk.HORIZONTAL, command=actualizar_valor,  bg="#569DAA", troughcolor="white")
-
-valor_slider.set(20)  # Establecer valor inicial en 20 (temperatura ambiente)
-slider.place(x=50, y=50, width=200, height=50)
-slider.config(borderwidth=0, highlightbackground='#569DAA')
-
+slider = tk.Scale(root, from_=-50, to=150, variable=valor_slider, orient=tk.HORIZONTAL, command=actualizar_valor, bg="#569DAA", troughcolor="white")
+slider.set(20)  # Establecer valor inicial en 20 (temperatura ambiente)
+slider.pack(pady=20)
 
 # Crear una variable Tkinter para mostrar el valor en tiempo real del slider
 valor_texto = tk.StringVar()
 valor_texto.set("Estado del Agua a: 20 °C")
-etiqueta_valor = tk.Label(root, textvariable=valor_texto)
-etiqueta_valor.config(bg='#569DAA')
+etiqueta_valor = tk.Label(root, textvariable=valor_texto, font=("Arial", 12), bg="#569DAA")
 etiqueta_valor.pack(pady=10)
-etiqueta_valor.config(font=("Arial", 12))
-etiqueta_valor.place(x=50, y=100)
 
 # Crear un cuadro de imagen
 imagen = Image.new("RGB", (200, 200), (255, 255, 255))
 imagen_tk = ImageTk.PhotoImage(imagen)
-etiqueta_imagen = tk.Label(root, image=imagen_tk)
+etiqueta_imagen = tk.Label(root, image=imagen_tk, bg="#569DAA")
 etiqueta_imagen.pack(pady=20)
-etiqueta_imagen.place()
-etiqueta_imagen.place(x=50, y=150, width=250, height=200)
 
-
-#! Todo lo referente a la grafica
-
-# Creamos la figura y el gráfico
-fig = Figure(figsize=(1, 3), dpi=100, facecolor='#569DAA')
+# Todo lo referente a la gráfica
+fig = Figure(figsize=(2, 4), dpi=100)
 ax = fig.add_subplot(111)
 
-# Datos de ejemplo para la línea ascendente
+# Datos para la línea ascendente
 x = ["Sólido", "Líquido", "Gaseoso"]
-y = [-20, 20 , 150]
+y = [-20, 20, 150]
 
 # Dibujamos la línea ascendente
 ax.plot(x, y, marker="o")
 
 # Punto inicial en (0, 0)
-punto, = ax.plot(0, 0, marker="o", color="red")  
+punto, = ax.plot(0, 0, marker="o", color="red")
 
-
-
-fig.set_size_inches(1, 2)
-ax.set_facecolor('#569DAA')  # Cambiar el color de fondo aquí (código hexadecimal)
-
+# Configuración de la gráfica
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_xticks([])
+ax.set_yticks([])
 
 # Creamos el lienzo de la figura
 canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.get_tk_widget().pack(pady=10)
 
-canvas.get_tk_widget().configure(width=100, height=50)
-canvas.draw()
-
-# Mostramos el lienzo y empaquetamos la ventana
-canvas.get_tk_widget().place(x=350, y=100,width=350, height=250)
-
+# Actualizar posición del punto inicial
+actualizar_punto()
 
 # Iniciar el bucle principal de la ventana de Tkinter
 root.mainloop()
