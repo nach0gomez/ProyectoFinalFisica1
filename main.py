@@ -33,6 +33,22 @@ valor_slider = tk.IntVar()
 # Variable global para almacenar la imagen de la línea
 imagen_tk = None
 
+valor_manual = ttk.Entry(root)
+valor_manual.place(x=110,y=20, width=30, height=20)
+
+def actualizar_slider(event):
+    try:
+        valor = int(valor_manual.get())
+        if valor >= slider["from"] and valor <= slider["to"]:
+            slider.set(valor)
+    except ValueError:
+        pass
+
+# Asignar la función al evento "Return/Enter" del campo de texto
+valor_manual.bind("<Return>", actualizar_slider)
+
+
+
 # Función para actualizar el valor en tiempo real del slider
 def actualizar_valor(*args):
     valor = valor_slider.get()
@@ -62,7 +78,7 @@ def actualizar_imagen():
     #punto con el slider
     x = (valor + 50) / 200  # Normaliza el valor del slider en el rango de 0 a 1 para el eje x
     y = (100 - valor) / 100  # Normaliza el valor del slider en el rango de 0 a 1 para el eje y
-    punto.set_data(x, y)
+    punto.set_data([x], [y])
     canvas.draw_idle()
         
 
@@ -126,7 +142,7 @@ canvas.get_tk_widget().configure(width=100, height=50)
 canvas.draw()
 
 # Mostramos el lienzo y empaquetamos la ventana
-canvas.get_tk_widget().place(x=350, y=100,width=350, height=250)
+canvas.get_tk_widget().place(x=390, y=100,width=350, height=250)
 
 
 # Iniciar el bucle principal de la ventana de Tkinter
