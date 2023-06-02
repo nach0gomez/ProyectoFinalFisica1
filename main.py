@@ -33,8 +33,16 @@ valor_slider = tk.IntVar()
 # Variable global para almacenar la imagen de la línea
 imagen_tk = None
 
+
+#Label para indicarle al usuario
+labelEntry = tk.Label(root, text="Ingrese la temperatura:", font=("Arial", 10), fg="black", bg="#569DAA")
+labelEntry2 = tk.Label(root, text="Entre -50 y 150", font=("Arial", 10), fg="black", bg="#569DAA")
+labelEntry.place(x=20,y=10, width=170, height=20)
+labelEntry2.place(x=20,y=28, width=170, height=20)
+
+# Aqui ponemos el entry para poder ingresar la temperatura de manera manual
 valor_manual = ttk.Entry(root)
-valor_manual.place(x=110,y=20, width=30, height=20)
+valor_manual.place(x=180,y=20, width=30, height=20)
 
 def actualizar_slider(event):
     try:
@@ -85,6 +93,7 @@ def actualizar_imagen():
 #Label principal
 titulo = tk.Label(root, text="Visualizador Cambio de Estados del Agua", font=("Arial", 16), fg="black", bg="#569DAA")
 titulo.pack(pady=10)
+titulo.place(x=300, y=35)
 
 
 # Crear un slider
